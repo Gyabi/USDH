@@ -1,35 +1,14 @@
-import { useCallback } from 'react';
-import {Handle, Position, useReactFlow, useStoreApi} from 'reactflow';
+import {Handle, Position} from 'reactflow';
 // 👇 you need to import the reactflow styles
 import 'reactflow/dist/style.css';
+import NodeNameBox from './parts/NodeNameBox';
+
 
 function ScriptableNode({id, data}){
-    // コンポーネントから値を更新するためにsetNodesを取得
-    const {setNodes} = useReactFlow();
-    const store = useStoreApi();
-
-    // 値に変更があったときの動作
-    const onChange = useCallback((evt) => {
-        const {nodeInternals} = store.getState();
-        // ノードを順番にみて該当するIDなら値を修正
-        setNodes(
-            Array.from(nodeInternals.values()).map((node)=>{
-                if(node.id == id){
-                    node.data = {
-                        ...node.data,
-                        node_name: evt.target.value,
-                    };
-                }
-                return node;
-            })
-        )
-        // console.log(evt.target.value);
-    }, []);
-
     return (
         <div className='text-scriptable-node'>
             <label htmlFor="text">ScriptableObject</label>
-            <input id="text" onChange={onChange} value={data.node_name}/>
+            <NodeNameBox value={data.node_name} id={id}/>
             <Handle type='source' position={Position.Left} id="scriptableOut" />
         </div>
     )

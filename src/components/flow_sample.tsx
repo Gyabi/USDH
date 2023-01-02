@@ -14,8 +14,8 @@ import { ScriptableNode } from './nodes/ScriptableNode';
 import { EnumNode } from './nodes/EnumNode';
 
 const initialNodes = [
-  { id: '1', position: { x: 0, y: 0 }, data: { node_name: 'scriptable' }, type: 'scriptable' },
-  { id: '3', position: { x: 0, y: 100 }, data: { node_name: 'enum' }, type: 'enum'},
+  { id: '1', position: { x: 0, y: 0 }, data: { node_name: 'scriptable'}, type: 'scriptable' },
+  { id: '3', position: { x: 0, y: 100 }, data: { node_name: 'enum'}, type: 'enum'},
 ];
 
 // const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
