@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
-import {Handle, Position, useReactFlow, useStoreApi} from 'reactflow';
+import {Handle, Position, ReactFlowInstance, useReactFlow, useStoreApi} from 'reactflow';
 // 👇 you need to import the reactflow styles
 import 'reactflow/dist/style.css';
 
-function ScriptableNode({id, data}){
+function EnumNode({id, data}){
     // コンポーネントから値を更新するためにsetNodesを取得
-    const {setNodes} = useReactFlow();
+    const {setNodes} : ReactFlowInstance = useReactFlow();
     const store = useStoreApi();
 
     // 値に変更があったときの動作
@@ -27,7 +27,7 @@ function ScriptableNode({id, data}){
     }, []);
 
     return (
-        <div className='text-scriptable-node'>
+        <div className='text-enum-node'>
             <label htmlFor="text">ScriptableObject</label>
             <input id="text" onChange={onChange} value={data.node_name}/>
             <Handle type='source' position={Position.Left} id="scriptableOut" />
@@ -35,4 +35,4 @@ function ScriptableNode({id, data}){
     )
 }
 
-export {ScriptableNode};
+export {EnumNode};

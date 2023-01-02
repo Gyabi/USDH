@@ -11,16 +11,18 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 
 import { ScriptableNode } from './nodes/ScriptableNode';
+import { EnumNode } from './nodes/EnumNode';
 
 const initialNodes = [
-  { id: '1', position: { x: 0, y: 0 }, data: { label: '1' }, type: 'scriptable' },
-  { id: '2', position: { x: 0, y: 100 }, data: { label: '3' } },
+  { id: '1', position: { x: 0, y: 0 }, data: { node_name: 'scriptable' }, type: 'scriptable' },
+  { id: '3', position: { x: 0, y: 100 }, data: { node_name: 'enum' }, type: 'enum'},
 ];
 
 // const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
 
 
-const nodeTypes = {scriptable: ScriptableNode};
+const nodeTypes = {scriptable: ScriptableNode,
+                    enum: EnumNode};
 
 function FlowSample() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
