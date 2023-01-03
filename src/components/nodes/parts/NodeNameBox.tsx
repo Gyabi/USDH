@@ -26,7 +26,7 @@ function NodeNameBox({value, id}){
         // console.log(evt.target.value);
     }, []);
     return (
-        <input id="text" onChange={onChange} value={value} className="parts-input"/>
+        <input id="text" onChange={onChange} value={value} className="bg-slate-300 font-semibold"/>
     )
 }
 

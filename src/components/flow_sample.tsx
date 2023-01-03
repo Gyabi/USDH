@@ -6,7 +6,8 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   addEdge,
-  Node
+  Node,
+  NodeTypes
 } from 'reactflow';
 // 👇 you need to import the reactflow styles
 import 'reactflow/dist/style.css';
@@ -19,11 +20,7 @@ import { GameObjectNode } from './nodes/GameObjectNode';
 import { ClassNode } from './nodes/ClassNode';
 import { InterfaceNode } from './nodes/InterfaceNode';
 
-// 自分で定義したnodeの持つデータ型
-export type NodeDataType = {
-  node_name : string,
-  sample? : string,//こんな感じで特定の型を作成しておく
-}
+import { NodeDataType } from './dataTypes/DataType';
 
 const initialNodes : Node<NodeDataType>[] = [
   { id: '1', position: { x: 0, y: 0 }, data: { node_name: 'scriptable'}, type: 'scriptable' },
