@@ -37,7 +37,7 @@ const NodeParamters = ({inputNames, outputNames}:NodeParameterData) => {
                             <span className="px-3 py-1 text-xs rounded-lg bg-gray-500">{input}</span>
                             
                             <Handle
-                                id="test"
+                                id={ix.toString()}
                                 type="target"
                                 position={Position.Left}
                                 className="input-port"
@@ -50,7 +50,7 @@ const NodeParamters = ({inputNames, outputNames}:NodeParameterData) => {
                             <span className="px-3 py-1 text-xs rounded-lg bg-gray-500">{output}</span>
                             
                             <Handle
-                                id="test2"
+                                id={ix.toString()}
                                 type="source"
                                 position={Position.Right}
                                 className="output-port"
