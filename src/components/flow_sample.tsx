@@ -6,23 +6,45 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   addEdge,
+  Node
 } from 'reactflow';
 // 👇 you need to import the reactflow styles
 import 'reactflow/dist/style.css';
 
 import { ScriptableNode } from './nodes/ScriptableNode';
 import { EnumNode } from './nodes/EnumNode';
+import { AsmdefNode } from './nodes/AsmdefNode';
+import { PrefabNode } from './nodes/PrefabNode';
+import { GameObjectNode } from './nodes/GameObjectNode';
+import { ClassNode } from './nodes/ClassNode';
+import { InterfaceNode } from './nodes/InterfaceNode';
 
-const initialNodes = [
+// 自分で定義したnodeの持つデータ型
+export type NodeDataType = {
+  node_name : string,
+  sample? : string,//こんな感じで特定の型を作成しておく
+}
+
+const initialNodes : Node<NodeDataType>[] = [
   { id: '1', position: { x: 0, y: 0 }, data: { node_name: 'scriptable'}, type: 'scriptable' },
-  { id: '3', position: { x: 0, y: 100 }, data: { node_name: 'enum'}, type: 'enum'},
+  { id: '2', position: { x: 0, y: 100 }, data: { node_name: 'asmdef'}, type: 'asmdef' },
+  { id: '3', position: { x: 0, y: 200 }, data: { node_name: 'enum'}, type: 'enum'},
+  { id: '4', position: { x: 0, y: 300 }, data: { node_name: 'prefab'}, type: 'prefab'},
+  { id: '5', position: { x: 0, y: 400 }, data: { node_name: 'gameobject'}, type: 'gameobject'},
+  { id: '6', position: { x: 0, y: 500 }, data: { node_name: 'class'}, type: 'class'},
+  { id: '7', position: { x: 0, y: 600 }, data: { node_name: 'interface'}, type: 'interface'},
 ];
 
 // const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
-
-
-const nodeTypes = {scriptable: ScriptableNode,
-                    enum: EnumNode};
+// 自作のノードを登録
+const nodeTypes = {
+  scriptable: ScriptableNode,
+  enum: EnumNode,
+  asmdef: AsmdefNode,
+  prefab: PrefabNode,
+  gameobject: GameObjectNode,
+  class:ClassNode,
+  interface:InterfaceNode};
 
 function FlowSample() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -43,7 +65,7 @@ function FlowSample() {
       >
         <MiniMap />
         <Controls />
-        <Background />
+        <Background color='#000000' />
       </ReactFlow>
     </div>
   );

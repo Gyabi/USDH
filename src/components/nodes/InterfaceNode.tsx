@@ -3,15 +3,16 @@ import {Handle, Position} from 'reactflow';
 import 'reactflow/dist/style.css';
 import NodeNameBox from './parts/NodeNameBox';
 
-// ScriptableObject用のNode
-function ScriptableNode({id, data}){
+// Interface用のNode
+function InterfaceNode({id, data}){
     return (
-        <div className='text-scriptable-node'>
-            <label htmlFor="text">ScriptableObject</label>
+        <div className='text-interface-node'>
+            <label htmlFor="text">Interface</label>
             <NodeNameBox value={data.node_name} id={id}/>
             <Handle type='target' position={Position.Left} id="scriptableOut" className="input-port"/>
+            <Handle type='source' position={Position.Right} id="scriptableOut" className="output-port"/>
         </div>
     )
 }
 
-export {ScriptableNode};
+export {InterfaceNode};

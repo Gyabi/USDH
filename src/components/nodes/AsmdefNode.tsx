@@ -3,14 +3,14 @@ import {Handle, Position} from 'reactflow';
 import 'reactflow/dist/style.css';
 import NodeNameBox from './parts/NodeNameBox';
 
-function EnumNode({id, data}){
+// Asmdef用のNode
+function AsmdefNode({id, data}){
     return (
-        <div className='text-enum-node'>
-            <label htmlFor="text">Enum</label>
+        <div className='text-asmdef-node'>
+            <label htmlFor="text">Asmdef</label>
             <NodeNameBox value={data.node_name} id={id}/>
-            <Handle type='target' position={Position.Left} id="scriptableOut"  className="input-port"/>
         </div>
     )
 }
 
-export {EnumNode};
+export {AsmdefNode};
