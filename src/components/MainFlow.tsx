@@ -20,9 +20,12 @@ import { GameObjectNode } from './nodes/GameObjectNode';
 import { ClassNode } from './nodes/ClassNode';
 import { InterfaceNode } from './nodes/InterfaceNode';
 
+import {PackageNode} from './nodes/PackageNode';
+
 import { NodeDataType } from './dataTypes/DataType';
 
 import Dock from './dock/Dock';
+import { debug } from 'util';
 
 // 自作のノードを登録
 const nodeTypes = {
@@ -32,7 +35,9 @@ const nodeTypes = {
   prefab: PrefabNode,
   gameobject: GameObjectNode,
   class:ClassNode,
-  interface:InterfaceNode};
+  interface:InterfaceNode,
+  package:PackageNode
+};
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -91,17 +96,45 @@ const MainFlow = () => {
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
+
+      // パッケージを作るときにはStyleを割り当てる
       const newNode = {
         id: getId(),
         type,
         position,
         data: { node_name: type },
+        style: null
       };
+    
+      if(type == 'package'){
+        newNode.style = {
+          border: '1px solid gray',
+          borderRadius: 6,
+        };
+      }
       
       setNodes((nds) => nds.concat(newNode));
     },
     [reactFlowInstance]
     );
+    // --------------------------------------------------------------------
+    // --------------------------------------------------------------------
+    // ノードを動かし始めたときに呼ばれる
+    // パッケージに含まれていれば一旦削除
+    const OnNodeDragStart = useCallback((event) => {
+      // console.log("start");
+
+    }, []);
+
+    // ノードをドロップしたときに呼ばれる
+    // パッケージへのグループ化処理を実行
+    const OnNodeDragStop = useCallback((event) => {
+      // console.log("stop");
+      // パッケージだけを検索対象にする
+
+      // パッケージのネストにも対応する
+      
+    }, []);
     // --------------------------------------------------------------------
 
   return (
@@ -124,6 +157,9 @@ const MainFlow = () => {
             onInit={setReactFlowInstance}
             onDrop={onDrop}
             onDragOver={onDragOver}
+            onNodeDragStart={OnNodeDragStart}
+            onNodeDragStop={OnNodeDragStop}
+            
             fitView
           >
             <MiniMap />
