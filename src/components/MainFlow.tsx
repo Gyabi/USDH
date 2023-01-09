@@ -7,7 +7,6 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   addEdge,
-  Node,
   updateEdge
 } from 'reactflow';
 // 👇 you need to import the reactflow styles
@@ -25,17 +24,6 @@ import { NodeDataType } from './dataTypes/DataType';
 
 import Dock from './dock/Dock';
 
-const initialNodes : Node<NodeDataType>[] = [
-  { id: '1', position: { x: 0, y: 0 }, data: { node_name: 'scriptable'}, type: 'scriptable' },
-  { id: '2', position: { x: 0, y: 100 }, data: { node_name: 'asmdef'}, type: 'asmdef' },
-  { id: '3', position: { x: 0, y: 200 }, data: { node_name: 'enum'}, type: 'enum'},
-  { id: '4', position: { x: 0, y: 300 }, data: { node_name: 'prefab'}, type: 'prefab'},
-  { id: '5', position: { x: 0, y: 400 }, data: { node_name: 'gameobject'}, type: 'gameobject'},
-  { id: '6', position: { x: 0, y: 500 }, data: { node_name: 'class'}, type: 'class'},
-  { id: '7', position: { x: 0, y: 600 }, data: { node_name: 'interface'}, type: 'interface'},
-];
-
-// const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
 // 自作のノードを登録
 const nodeTypes = {
   scriptable: ScriptableNode,
@@ -51,47 +39,54 @@ const getId = () => `dndnode_${id++}`;
 
 const MainFlow = () => {
   const reactFlowWrapper = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
   const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
   const edgeUpdateSuccessful = useRef(true);
 
+  // --------------------------------------------------------------------
+  // エッジの削除実装に利用するメソッド
   const onEdgeUpdateStart = useCallback(() => {
     edgeUpdateSuccessful.current = false;
   }, []);
-
+  
   const onEdgeUpdate = useCallback((oldEdge, newConnection) => {
     edgeUpdateSuccessful.current = true;
     setEdges((els) => updateEdge(oldEdge, newConnection, els));
   }, []);
-
+  
   const onEdgeUpdateEnd = useCallback((_, edge) => {
     if (!edgeUpdateSuccessful.current) {
       setEdges((eds) => eds.filter((e) => e.id !== edge.id));
     }
-
+    
     edgeUpdateSuccessful.current = true;
   }, []);
-
+  // --------------------------------------------------------------------
+  
+  // --------------------------------------------------------------------
+  // Dockの実装に利用するメソッド
+  // ドラッグ中にオブジェクトの下に何かあるときに数ミリ秒毎に呼ばれる
   const onDragOver = useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
   }, []);
-
+  
+  // オブジェクトをドロップしたときに実行されるメソッド
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
-
+      
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
       const type = event.dataTransfer.getData('application/reactflow');
-
+      
       // check if the dropped element is valid
       if (typeof type === 'undefined' || !type) {
         return;
       }
-
+      
       const position = reactFlowInstance.project({
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
@@ -102,17 +97,19 @@ const MainFlow = () => {
         position,
         data: { node_name: type },
       };
-
+      
       setNodes((nds) => nds.concat(newNode));
     },
     [reactFlowInstance]
-  );
+    );
+    // --------------------------------------------------------------------
 
   return (
-    <div className="dndflow">
+    <div className="flex-row flex grow h-full">
       <ReactFlowProvider>
-          <Dock/>
-        <div className="reactflow-wrapper" ref={reactFlowWrapper}>
+        <Dock/>
+        {/* h-screenによって全画面に表示している */}
+        <div className="grow h-screen" ref={reactFlowWrapper}>
           <ReactFlow
             nodes={nodes}
             edges={edges}
