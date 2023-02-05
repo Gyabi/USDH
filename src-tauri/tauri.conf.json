@@ -4,7 +4,7 @@
     "beforeBuildCommand": "npm run build",
     "devPath": "http://localhost:1420",
     "distDir": "../dist",
-    "withGlobalTauri": false
+    "withGlobalTauri": true
   },
   "package": {
     "productName": "USDH",
@@ -16,6 +16,15 @@
       "shell": {
         "all": false,
         "open": true
+      },
+      "fs": {
+        "all": false,
+        "readFile": true,
+        "writeFile": true
+      },
+      "dialog": {
+        "all": false,
+        "save": true
       }
     },
     "bundle": {

@@ -12,6 +12,8 @@ import ReactFlow, {
 // 👇 you need to import the reactflow styles
 import 'reactflow/dist/style.css';
 
+import { invoke } from '@tauri-apps/api/tauri';
+
 import { ScriptableNode } from './nodes/ScriptableNode';
 import { EnumNode } from './nodes/EnumNode';
 import { AsmdefNode } from './nodes/AsmdefNode';
@@ -21,6 +23,7 @@ import { ClassNode } from './nodes/ClassNode';
 import { InterfaceNode } from './nodes/InterfaceNode';
 
 import {PackageNode} from './nodes/PackageNode';
+import { json } from 'stream/consumers';
 
 // 自作のノードを登録
 const nodeTypes = {
@@ -140,23 +143,24 @@ const FlowCore = () => {
         if (reactFlowInstance) {
           const flow = reactFlowInstance.toObject();
           localStorage.setItem(flowKey, JSON.stringify(flow));
-        //   RUST側で保存処理★
-    }
-}, [reactFlowInstance]);
-
-const onRestore = useCallback(() => {
-    const restoreFlow = async () => {
-        const flow = JSON.parse(localStorage.getItem(flowKey));
-        //   RUST側で読み込み処理★
-        
-        if (flow) {
-            const { x = 0, y = 0, zoom = 1 } = flow.viewport;
-            setNodes(flow.nodes || []);
-            setEdges(flow.edges || []);
-            setViewport({ x, y, zoom });
-          }
-        };
-    
+        }
+      }, [reactFlowInstance]);
+      
+      const onRestore = useCallback(() => {
+        const restoreFlow = async () => {
+          // Rust側から読み出し
+          invoke('read_data').then((message:string) => {
+            const flow = JSON.parse(message);
+            
+            if(flow) {
+                const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+                setNodes(flow.nodes || []);
+                setEdges(flow.edges || []);
+                setViewport({ x, y, zoom });
+              }
+            });
+          };
+          
         restoreFlow();
       }, [setNodes, setViewport]);
 
@@ -189,7 +193,7 @@ const onRestore = useCallback(() => {
                 </ReactFlow>
                 <aside className="border-r-2 px-4 py-3 text-xs">
                     <button onClick={onSave} className="bg-gray-600 hover:bg-gray-500 text-white rounded px-4 py-2">SAVE</button>
-                    {/* <button onClick={onRestore} className="bg-gray-600 hover:bg-gray-500 text-white rounded px-4 py-2">RESTORE</button> */}
+                    <button onClick={onRestore} className="bg-gray-600 hover:bg-gray-500 text-white rounded px-4 py-2">RESTORE</button>
                 </aside>
             </div>
       );
