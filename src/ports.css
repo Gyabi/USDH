@@ -1,0 +1,13 @@
+/* ポートの色、サイズ */
+.react-flow__handle.input-port {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background-color: gray;
+}
+.react-flow__handle.output-port {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background-color: lightgray;
+}
