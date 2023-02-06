@@ -8,8 +8,7 @@ Unity特有の概念に対応した設計支援ツール
 
 # DEMO
 
-"hoge"の魅力が直感的に伝えわるデモ動画や図解を載せる
-TBD
+![result](./Dock/gif/../../Docs/gif/Sample.gif?raw=true)
 
 # Features
 
@@ -23,42 +22,32 @@ Unity特有の以下の概念に対応したソフト設計ツール。
 ※本ツールで用いている設計指針は作成者の独断で決定している。
 
 # Requirement
+**開発フレームワーク**
+* TAURI 1.2.0  
+https://tauri.app/
 
-"hoge"を動かすのに必要なライブラリなどを列挙する
+**JavaScript**
+* react 18.2.0
+* next 12.3.4
+* typescript 4.9.4
+* reactflow 11.4.0
 
-* huga 3.5.2
-* hogehuga 1.0.2
-TBD
+**CSS**
+* tailwindcss 3.2.4
+
 
 # Installation
 
-Requirementで列挙したライブラリなどのインストール方法を説明する
-
-```bash
-pip install huga_package
-```
-TBD
-
-# Usage
-
-DEMOの実行方法など、"hoge"の基本的な使い方を説明する
-
-```bash
-git clone https://github.com/hoge/~
-cd examples
-python demo.py
-```
-TBD
+Actionよりインストーラをダウンロード
 
 # Note
 
-注意点などがあれば書く
-TBD
+本プロジェクトの利用によって生じる一切の不利益に対して開発者は責任を負いかねます。
 
 # Author
 
-* Gyabi
+* Kano
 
 # License
 
-"hoge" is under [Apache license](http://www.apache.org/licenses/).
+"USDH" is under [Apache license](http://www.apache.org/licenses/).
