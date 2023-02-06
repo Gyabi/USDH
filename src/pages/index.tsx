@@ -1,11 +1,8 @@
-import { useState } from "react";
-import { invoke } from "@tauri-apps/api/tauri";
-import { MainFlow } from "../components/MainFlow";
-
+import Home from "./home";
 function App() {
   return (
     <div>
-      <MainFlow/>
+      <Home/>
     </div>
   );
 }

@@ -23,7 +23,8 @@
         "writeFile": true
       },
       "dialog": {
-        "all": false,
+        "all": true,
+        "open": true,
         "save": true
       }
     },
